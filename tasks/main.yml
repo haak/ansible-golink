@@ -1,0 +1,25 @@
+---
+# tasks file for roles/golink
+
+- name: Create golink data directory
+  file:
+    path: "{{ golink_data_directory }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: run chown on directory
+  command: chown 65532 "{{ golink_data_directory }}"
+  become: true
+
+- name: Create golink container
+  docker_container:
+    name: golink
+    image: ghcr.io/tailscale/golink:main
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ golink_data_directory }}:/home/nonroot"
+    env:
+      "TS_AUTHKEY": "{{ golink_authkey }}"
+    

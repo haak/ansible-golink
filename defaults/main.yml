@@ -1,0 +1,5 @@
+---
+# defaults file for roles/golink
+docker_home: "REDACTED"
+golink_data_directory: "{{ docker_home }}/golink"
+golink_authkey: "REDACTED"
